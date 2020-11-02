@@ -1,0 +1,7 @@
+@import "./bootstrap.min.css";
+@import "./fontawesome.min.css";
+@import "./all.min.css";
+@import "./animate.min.css";
+@import "./admin.min.css";
+@import "../global/plugins/jquery-org-chart/css/jquery.jOrgChart.css";
+@import "../global/plugins/jquery-org-chart/css/custom.css";

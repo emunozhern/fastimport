@@ -1,0 +1,8 @@
+@import "./bootstrap.min.css";
+@import "./fontawesome.min.css";
+@import "./all.min.css";
+@import "./owl.carousel.min.css";
+@import "./owl.theme.default.min.css";
+@import "../global/plugins/jquery-org-chart/css/jquery.jOrgChart.css";
+@import "../global/plugins/jquery-org-chart/css/custom.css";
+@import "./style.css";

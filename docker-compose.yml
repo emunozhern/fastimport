@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: emunoz
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    container_name: app_fast_import
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_fast_import
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+
+  mariadb:
+    image: mariadb:10.2
+    container_name: db_fast_import
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: emunoz
+      MYSQL_DATABASE: emunoz
+      MYSQL_USER: emunoz
+      MYSQL_PASSWORD: emunoz
+    volumes:
+      - mariadb:/var/lib/mysql
+
+volumes:
+  mariadb: {}
