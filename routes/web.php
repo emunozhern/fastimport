@@ -25,7 +25,15 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+
+Route::get('/foos', function () {
+    Artisan::call('storage:link');
+});
 */
+/*Route::get('/storage/{extra}', function ($extra) {
+return redirect("/public/storage/$extra");
+})->where('extra', '.*');*/
+
 Route::group([
     'middleware' => ['admin', 'auth:sanctum', 'active'],
     'prefix'=>'admin','as'=>'admin.'

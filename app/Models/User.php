@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','parent_id','upline_id','level', 'is_active', 'is_admin', 'dni_photo_path_1', 'dni_photo_path_2', 'celular'
+        'name', 'email', 'password','parent_id','upline_id','level', 'is_active', 'is_admin', 'dni_photo_path_1', 'dni_photo_path_2', 'celular', 'path', 'sameline', 'level'
     ];
 
     /**
@@ -78,5 +78,34 @@ class User extends Authenticatable
     public function getUrlForRegisterAttribute()
     {
         return env("APP_URL")."/".$this->id;
+    }
+
+    public function getDownlinersAttribute()
+    {
+        $users = self::where('path', 'LIKE', $this->path . '%');
+        if ($this->path!=0) {
+            $users =  $users->where('upline_id', '>', $this->upline_id);
+        }
+        
+        $users =  $users->get();
+        
+        if ($this->path!=0) {
+            $users_2 = self::where('path', '=', $this->path)
+            ->get();
+            
+            $users = $users->merge($users_2);
+        }
+
+        $i = 0;
+        foreach ($users as $user) {
+            $data[$i]['id'] = $user->id;
+            $data[$i]['name'] = $user->name;
+            $data[$i]['email'] = $user->email;
+            $data[$i]['profile_photo_url'] = $user->profile_photo_url;
+            $data[$i]=collect($data[$i]);
+            $data[$i++]['parent'] = ($user['upline_id']==$this->upline_id ? "": $user['upline_id']);
+        }
+
+        return collect($data);
     }
 }

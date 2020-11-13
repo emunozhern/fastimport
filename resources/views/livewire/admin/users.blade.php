@@ -92,8 +92,11 @@
                                         <tr role="row">
                                             <th style="width: 12px;">#</th>
                                             <th>Nombre</th>
+                                            <th>Celular</th>
                                             <th>Email</th>
                                             <th>Patrocinador</th>
+                                            <th>Directos</th>
+                                            <th>Downliners</th>
                                             <th>Upliner</th>
                                             <th>Level</th>
                                             <th>Posicion</th>
@@ -118,8 +121,11 @@
                                                             {{ $user->name }}</a>
                                                     </h2>
                                                 </td>
+                                                <td>{{ $user->celular }}</td>
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->parent_id }}</td>
+                                                <td>{{ $user->children->count() }}</td>
+                                                <td>{{ $user->downliners->count() - 1 }}</td>
                                                 <td>{{ $user->upline_id }}</td>
                                                 <td>{{ $user->level }}</td>
                                                 <td>{{ $user->sameline }}</td>

@@ -18,9 +18,10 @@ class UpdateUserDniInformation implements UpdatesUserProfileInformation
      */
     public function update($user, array $input)
     {
+        
         Validator::make($input, [
-            'photo_1' => ['nullable', 'image', 'max:10000'],
-            'photo_2' => ['nullable', 'image', 'max:10000'],
+            'photo_1' => ['required', 'image', 'max:10000'],
+            'photo_2' => ['required', 'image', 'max:10000'],
         ])->validateWithBag('updateProfileInformation');
         
         if (isset($input['photo_1']) && isset($input['photo_2'])) {

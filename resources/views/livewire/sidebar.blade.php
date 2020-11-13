@@ -27,14 +27,14 @@
                         <i class="far fa-calendar-check"></i> <span>Matrix</span>
                     </a>
                 </li>
-                {{-- @if (!Auth::user()->dni_photo_path_1 && !Auth::user()->dni_photo_path_2) --}}
+                @if (!Auth::user()->dni_photo_path_1 && !Auth::user()->dni_photo_path_2) 
                     <li class="nav-item">
                         <a href="{{ route('upload_dni_for_verification') }} {{ request()->routeIs('upload_dni_for_verification') ? 'active' : '' }}"
                             class="nav-link" style="">
                             <i class="far fa-user"></i> <span>Settings</span>
                         </a>
                     </li>
-                {{-- @endif --}}
+                 @endif 
             </ul>
         </div>
         <div class="resize-sensor"
