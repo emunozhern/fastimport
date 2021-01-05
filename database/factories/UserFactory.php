@@ -22,36 +22,36 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $parent_ids = User::pluck('id')->toArray();
-        
-        $matrix_forced = $this->checkMatrixForced();
-        
+        $parent_id = User::all()->random()->id;
+        $matrix = $this->checkMatrix([$parent_id]);
+
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password' => bcrypt('admin'), // password
             'remember_token' => Str::random(10),
-            'parent_id' => $parent_ids[array_rand($parent_ids, 1)],
-            'upline_id' => $matrix_forced['upline_id'],
-            'level' => $matrix_forced['level'],
-            'path' => $matrix_forced['path'],
-            'sameline' => $matrix_forced['sameline'],
+            'parent_id' => $parent_id,
+            'upline_id' => $matrix['upline_id'],
+            'level' => $matrix['level'],
+            'path' => $matrix['path'],
+            'sameline' => $matrix['sameline'],
         ];
     }
     
-    public function checkMatrixForced($upline_ids=[0=>1])
+    public function checkMatrix($upline_ids=[1])
     {
         $next_upliners = [];
         foreach ($upline_ids as $key => $upline_id) {
             dump("Buscando posición upline: {$upline_id}");
-            $upliners = User::where('upline_id', $upline_id)->where('id', '!=', 1);
             
             $upline = User::where('id', $upline_id)->first();
+            
             $level = $upline->level;
-            $sameline = $upliners->count()+1;
-
-            if ($upliners->count() < 10) {
+            $sameline = $upline->children->count()+1;
+            
+            dump("El upline tiene: {$upline->children->count()} hijos");
+            if ($upline->children->count() < 10) {
                 return [
                     'path' => User::where('id', $upline_id)->first()->path . $sameline,
                     'sameline' => $sameline,
@@ -60,11 +60,11 @@ class UserFactory extends Factory
                 ];
             }
 
-            dump(" El upliners {$upline_id} tiene el máximo de {$upliners->count()}");
-            $upliners = $upliners->get()->pluck('id')->toArray();
+            dump(" El upliners {$upline_id} tiene el máximo de {$upline->children->count()}");
+            $upliners = $upline->children->pluck('id')->toArray();
             $next_upliners = array_merge($next_upliners, $upliners);
         }
       
-        return $this->checkMatrixForced($next_upliners);
+        return $this->checkMatrix($next_upliners);
     }
 }

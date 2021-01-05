@@ -30,35 +30,36 @@ class CreateNewUser implements CreatesNewUsers
 
         
         return DB::transaction(function () use ($input) {
-            $matrix_forced = $this->checkMatrixForced();
+            $matrix = $this->checkMatrix([$input['parent_id']]);
             
             return tap(User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
                 'parent_id' => $input['parent_id'],
-                'upline_id' => $matrix_forced['upline_id'],
-                'level' => $matrix_forced['level'],
-                'path' => $matrix_forced['path'],
-                'sameline' => $matrix_forced['sameline'],
+                'upline_id' => $matrix['upline_id'],
+                'level' => $matrix['level'],
+                'path' => $matrix['path'],
+                'sameline' => $matrix['sameline'],
                 ]), function (User $user) {
                     $this->createTeam($user);
                 });
         });
     }
 
-    public function checkMatrixForced($upline_ids=[0=>1])
+    public function checkMatrix($upline_ids=[1])
     {
         $next_upliners = [];
         foreach ($upline_ids as $key => $upline_id) {
             dump("Buscando posición upline: {$upline_id}");
-            $upliners = User::where('upline_id', $upline_id)->where('id', '!=', 1);
             
             $upline = User::where('id', $upline_id)->first();
+            
             $level = $upline->level;
-            $sameline = $upliners->count()+1;
-
-            if ($upliners->count() < 10) {
+            $sameline = $upline->children->count()+1;
+            
+            dump("El upline tiene: {$upline->children->count()} hijos");
+            if ($upline->children->count() < 10) {
                 return [
                     'path' => User::where('id', $upline_id)->first()->path . $sameline,
                     'sameline' => $sameline,
@@ -67,12 +68,12 @@ class CreateNewUser implements CreatesNewUsers
                 ];
             }
 
-            dump(" El upliners {$upline_id} tiene el máximo de {$upliners->count()}");
-            $upliners = $upliners->get()->pluck('id')->toArray();
+            dump(" El upliners {$upline_id} tiene el máximo de {$upline->children->count()}");
+            $upliners = $upline->children->pluck('id')->toArray();
             $next_upliners = array_merge($next_upliners, $upliners);
         }
       
-        return $this->checkMatrixForced($next_upliners);
+        return $this->checkMatrix($next_upliners);
     }
 
     /**

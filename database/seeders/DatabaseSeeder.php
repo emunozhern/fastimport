@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
                 'sameline' => 1,
                 'path'=>'0',
                 'password' => bcrypt('admin'),
+                'is_admin' => true,
+                'is_active' => true,
             ]);
     }
 }
