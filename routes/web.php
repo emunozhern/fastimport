@@ -3,6 +3,7 @@
 use App\Http\Livewire\Matrix;
 use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Admin\Users;
+use App\Http\Livewire\Admin\UserPending;
 use App\Http\Livewire\Admin\Network;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,7 @@ Route::group([
     Route::get('network', Network::class)->name('network');
     Route::get('network/{user_detail}', Network::class)->name('network_user_detail');
     Route::get('users', Users::class)->name('users');
+    Route::get('users-pendientes', UserPending::class)->name('users-pending');
 });
 
 Route::group([

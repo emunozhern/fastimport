@@ -81,6 +81,9 @@
                         <li>
                             <a href="{{ route('admin.users') }}"><i class="fas fa-user"></i> <span>Users</span></a>
                         </li>
+                        <li>
+                            <a href="{{ route('admin.users-pending') }}"><i class="fas fa-user-clock"></i> <span>Pendientes</span></a>
+                        </li>
                         {{-- <li>
                             <a href="settings.html"><i class="fas fa-cog"></i> <span> Settings</span></a>
                         </li> --}}

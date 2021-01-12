@@ -30,17 +30,17 @@ class CreateNewUser implements CreatesNewUsers
 
         
         return DB::transaction(function () use ($input) {
-            $matrix = $this->checkMatrix([$input['parent_id']]);
+            
             
             return tap(User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
                 'parent_id' => $input['parent_id'],
-                'upline_id' => $matrix['upline_id'],
-                'level' => $matrix['level'],
-                'path' => $matrix['path'],
-                'sameline' => $matrix['sameline'],
+                // 'upline_id' => $matrix['upline_id'],
+                // 'level' => $matrix['level'],
+                // 'path' => $matrix['path'],
+                // 'sameline' => $matrix['sameline'],
                 ]), function (User $user) {
                     $this->createTeam($user);
                 });

@@ -23,7 +23,7 @@ class UserFactory extends Factory
     public function definition()
     {
         $parent_id = User::all()->random()->id;
-        $matrix = $this->checkMatrix([$parent_id]);
+        // $matrix = $this->checkMatrix([$parent_id]);
 
         return [
             'name' => $this->faker->name,
@@ -32,10 +32,10 @@ class UserFactory extends Factory
             'password' => bcrypt('admin'), // password
             'remember_token' => Str::random(10),
             'parent_id' => $parent_id,
-            'upline_id' => $matrix['upline_id'],
-            'level' => $matrix['level'],
-            'path' => $matrix['path'],
-            'sameline' => $matrix['sameline'],
+            // 'upline_id' => $matrix['upline_id'],
+            // 'level' => $matrix['level'],
+            // 'path' => $matrix['path'],
+            // 'sameline' => $matrix['sameline'],
         ];
     }
     

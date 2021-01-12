@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','parent_id','upline_id','level', 'is_active', 'is_admin', 'dni_photo_path_1', 'dni_photo_path_2', 'celular', 'path', 'sameline', 'level'
+        'name', 'email', 'password','parent_id','upline_id','level', 'is_active', 'is_admin', 'dni_photo_path_1', 'dni_photo_path_2', 'celular', 'path', 'sameline', 'level', 'is_approved'
     ];
 
     /**
@@ -72,7 +72,7 @@ class User extends Authenticatable
 
     public function children()
     {
-        return $this->hasMany(User::class, 'parent_id');
+        return $this->hasMany(User::class, 'parent_id')->where('is_approved', true);
     }
 
     public function getUrlForRegisterAttribute()

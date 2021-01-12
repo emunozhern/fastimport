@@ -33,8 +33,9 @@ class Users extends Component
     public function render()
     {
         return view('livewire.admin.users', [
-            'users' => User::where('name', 'LIKE', "%{$this->q}%")
-            ->orWhere('email', 'LIKE', "%{$this->q}%")
+            'users' => User::where('is_approved', true)
+            ->where('name', 'LIKE', "%{$this->q}%")
+            // ->orWhere('email', 'LIKE', "%{$this->q}%")
             ->paginate($this->perPage),
         ])
         ->layout('layouts.admin');

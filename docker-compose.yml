@@ -23,7 +23,7 @@ services:
       - ./:/var/www
       - ./docker/nginx:/etc/nginx/conf.d/
 
-  mariadb:
+  db_fast_import:
     image: mariadb:10.2
     container_name: db_fast_import
     restart: unless-stopped
@@ -31,11 +31,11 @@ services:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: emunoz
-      MYSQL_DATABASE: emunoz
+      MYSQL_DATABASE: db_fast_import
       MYSQL_USER: emunoz
       MYSQL_PASSWORD: emunoz
     volumes:
-      - mariadb:/var/lib/mysql
+      - db_fast_import:/var/lib/mysql
 
 volumes:
-  mariadb: {}
+  db_fast_import: {}
