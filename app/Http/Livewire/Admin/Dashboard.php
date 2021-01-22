@@ -14,7 +14,7 @@ class Dashboard extends Component
             ->count(),
             'users_approved' => User::where('id', '<>', 1)->where('is_approved', true)
             ->count(),
-            'network_level' => User::where('is_approved', true)->orderBy('id', 'DESC')->first()
+            'network_level' => User::where('is_approved', true)->orderBy('level', 'DESC')->first()
         ])
         ->layout('layouts.admin');
     }
