@@ -18,17 +18,22 @@ class Dashboard extends Component
             $users =  $users->where('upline_id', '>', Auth::user()->upline_id);
         }
 
-        $users =  $users->get();
-        
+        $max_level = Auth::user()->level + 5;
+        $users = $users->where('level', '>', Auth::user()->level)
+        ->where('level', '<', $max_level)
+        ->get();
+
         if (Auth::user()->path!=0) {
             $users_2 = User::where('path', '=', Auth::user()->path)
             ->get();
-            
+
             $users = $users->merge($users_2);
         }
+        $this->users_down_count = count($users);
+        if (Auth::user()->path!=0) {
+            $this->users_down_count = count($users)-1;
+        }
 
-        $this->users_down_count = count($users)-1;
-        
         return view('livewire.dashboard');
     }
 }

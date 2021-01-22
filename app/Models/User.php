@@ -108,4 +108,41 @@ class User extends Authenticatable
 
         return collect($data);
     }
+
+    public function getDownlinersUnlimitedAttribute()
+    {
+        $current_user = self::where('id', '=', $this->id)
+        ->get();
+
+        $users = self::where('path', 'LIKE', $this->path . '%');
+        if ($this->path!=0) {
+            $users =  $users->where('upline_id', '>', $this->upline_id);
+        }
+        
+        $max_level = $this->level + 4;
+        $users = $users->where('level', '>', $this->level)
+        ->where('level', '<', $max_level)
+        ->get();
+
+        if ($this->path!=0) {
+            $users_2 = self::where('path', '=', $this->path)
+            ->get();
+
+            $users = $users->merge($users_2);
+        }
+
+        $users = $users->merge($current_user);
+
+        $i = 0;
+        foreach ($users as $user) {
+            $data[$i]['id'] = $user->id;
+            $data[$i]['name'] = $user->name;
+            $data[$i]['email'] = $user->email;
+            $data[$i]['profile_photo_url'] = $user->profile_photo_url;
+            $data[$i]=collect($data[$i]);
+            $data[$i++]['parent'] = ($user['upline_id']==$this->upline_id ? "": $user['upline_id']);
+        }
+
+        return collect($data);
+    }
 }

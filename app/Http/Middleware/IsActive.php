@@ -17,10 +17,10 @@ class IsActive
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() &&  Auth::user()->is_active == 1 || Auth::user()->is_admin == 1) {
+        if (Auth::user() && Auth::user()->is_active == 1 && Auth::user()->is_approved == 1 || Auth::user()->is_admin == 1) {
             return $next($request);
         }
 
-        return redirect('index')->with('error', 'You have not admin access');
+        return redirect()->route('not_member');
     }
 }

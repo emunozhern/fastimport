@@ -10,7 +10,7 @@
                             <i class="far fa-user"></i>
                         </span>
                         <div class="dash-widget-info">
-                            <h3>{{ $users_count }}</h3>
+                            <h3><span style="color: red; font-weight: bold">{{$users_count}}</span> /  <span style="color: green; font-weight: bold">{{$users_approved}}</span></h3>
                             <h6 class="text-muted">Usuarios</h6>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 <div class="col-xl-3 col-md-4 theiaStickySidebar"
     style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
 
-
+    @if (Auth::user()->is_approved)
     <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
         <div class="mb-4">
             <div class="d-sm-flex flex-row flex-wrap text-center text-sm-left align-items-center">
@@ -52,4 +52,6 @@
             </div>
         </div>
     </div>
+    @endif
+   
 </div>

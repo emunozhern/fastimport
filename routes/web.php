@@ -2,14 +2,16 @@
 
 use App\Http\Livewire\Matrix;
 use App\Http\Livewire\Dashboard;
+use App\Http\Livewire\NotMember;
 use App\Http\Livewire\Admin\Users;
-use App\Http\Livewire\Admin\UserPending;
 use App\Http\Livewire\Admin\Network;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Admin\UserDetail;
+use App\Http\Livewire\Admin\UserPending;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\NotMemberController;
 use App\Http\Controllers\CustomLoginController;
 use App\Http\Livewire\UploadDniForVerification;
 use App\Http\Controllers\CustomRegisterController;
@@ -54,7 +56,8 @@ Route::group([
     Route::get('/matriz', Matrix::class)->name('matrix');
     Route::get('/matrix_get_user', [MemberController::class, 'matrix_get_user'])->name('matrix_get_user');
 });
-    
+
+Route::get('/no-eres-miembro', NotMember::class)->name('not_member');
 Route::get('/', CustomLoginController::class) ->middleware(['guest'])->name('index');
 Route::get('/{parent_id}', CustomRegisterController::class)
             ->middleware(['guest']);

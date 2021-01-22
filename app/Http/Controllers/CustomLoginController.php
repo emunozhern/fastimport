@@ -16,6 +16,9 @@ class CustomLoginController extends Controller
     public function __invoke(Request $request)
     {
         if (Auth::check()) {
+            if (!Auth::user()->is_approved) {
+                return redirect()->route('not_member');
+            }
             return redirect()->route('dashboard');
         } else {
             return view('auth.login');

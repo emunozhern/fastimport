@@ -125,7 +125,7 @@
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->parent_id }}</td>
                                                 <td>{{ $user->children->count() }}</td>
-                                                <td>{{ $user->downliners->count() - 1 }}</td>
+                                                <td><span style="color: red">{{ $user->downliners_unlimited->count() - 1 }}</span> / {{ $user->downliners->count() - 1 }}</td>
                                                 <td>{{ $user->upline_id }}</td>
                                                 <td>{{ $user->level }}</td>
                                                 <td>{{ $user->sameline }}</td>
